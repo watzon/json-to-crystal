@@ -1,7 +1,3 @@
-interface String {
-    repeat: (num: number) => string;
-}
-
 if (!String.prototype.repeat) {
     String.prototype.repeat = function(count) {
       'use strict';

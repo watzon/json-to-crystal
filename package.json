@@ -2,10 +2,9 @@
   "name": "json-to-crystal",
   "version": "0.2.1",
   "description": "Convert json to Crystal classes",
-  "main": "dist/json-to-crystal.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -27,9 +26,6 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.104",
-    "ts-loader": "^3.5.0",
-    "typescript": "^2.7.2",
-    "webpack": "^3.11.0"
+    "@types/lodash": "^4.14.104"
   }
 }
