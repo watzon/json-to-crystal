@@ -40,7 +40,7 @@ class JsonToCrystal {
     return this.parseScope(data)
   }
 
-  public parseScope (scope: Object): string {
+  public parseScope (scope: any): string {
     let crystal = ''
 
     if (_.isObjectLike(scope) && !_.isNull(scope)) {
@@ -59,7 +59,7 @@ class JsonToCrystal {
     return crystal
   }
 
-  public parseClass(name: string, scope: Object, indentLevel: number = 0): string {
+  public parseClass(name: string, scope: any, indentLevel: number = 0): string {
     if (name.charAt(0).match(/[a-z]/))
       name = _.upperFirst(_.camelCase(name))
 
