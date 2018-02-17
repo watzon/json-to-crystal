@@ -2,7 +2,7 @@
   "name": "json-to-crystal",
   "version": "0.1.0",
   "description": "Convert json to Crystal classes",
-  "main": "json-to-crystal.js",
+  "main": "dist/json-to-crystal.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
