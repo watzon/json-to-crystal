@@ -103,7 +103,7 @@ class JsonToCrystal {
   indent (tabs) {
     if (tabs <= 0)
       return ''
-    return '  '.repeat(tabs)
+    return '\t'.repeat(tabs)
   }
 
   format (str) {
