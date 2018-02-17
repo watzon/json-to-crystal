@@ -60,8 +60,7 @@ class JsonToCrystal {
   }
 
   public parseClass(name: string, scope: any, indentLevel: number = 0): string {
-    if (name.charAt(0).match(/[a-z]/))
-      name = _.upperFirst(_.camelCase(name))
+    name = this.formatClassName(name)
 
     let subclasses = {}
     let str = ''
@@ -92,7 +91,7 @@ class JsonToCrystal {
       let kind = this.crystalType(scope[key])
       if (kind === 'class') {
         subclasses[key] = scope[key]
-        str += `type: ${key} },\n`
+        str += `type: ${this.formatClassName(key)} },\n`
       } else {
         str += `type: ${this.parseScope(scope[key])} },\n`
       }
@@ -164,13 +163,17 @@ class JsonToCrystal {
     }
   }
 
-  public arrayType (arr: Array<any>): string {
+  private arrayType (arr: Array<any>): string {
     let types: Array<string> = arr.map(v => this.parseScope(v))
     let unique: Array<string> = _.uniq(types)
     if (unique.length === 0)
       unique.push("JSON::Any")
     let union: string = unique.join(" | ")
     return `Array(${union})`
+  }
+
+  private formatClassName (name: string) {
+    return _.upperFirst(_.camelCase(name))
   }
 
 }
