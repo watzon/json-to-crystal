@@ -97,6 +97,7 @@ class CrystalArray {
 
   constructor (arr = [], options = {}) {
     this.rawArr = arr
+    this.classes = []
     this.options = _.defaultsDeep(options, this._defaultOptions)
   }
 
@@ -105,8 +106,10 @@ class CrystalArray {
       .map(v => Util.crystalType(v))
       .map((v, i) => {
         if (v === 'class') {
-          const nt = new CrystalNamedTuple(this.rawArr[i], this.options)
-          return nt.toString()
+          const name = 'AryCls' + (new Date()).getTime().toString().slice(8)
+          const cls = new CrystalClass(this.rawArr[i], name, this.options)
+          this.classes.push(cls)
+          return name
         } else if (v === 'array') {
           const ary = new CrystalArray(this.rawArr[i], this.options)
           return ary.toString()
@@ -166,12 +169,13 @@ class CrystalClass {
           let type = Util.crystalType(this.properties[x])
 
           if (type === 'class') {
-            const klass = new CrystalClass(this.properties[x], key, { baseIndent: indentLevel - 1 })
+            const klass = new CrystalClass(this.properties[x], key, _.defaultsDeep({ baseIndent: indentLevel - 1 }, this.options))
             this.subclasses.push(klass)
             type = klass.name
           } else if (type === 'array') {
-            const ary = new CrystalArray(this.properties[x], this.options)
+            const ary = new CrystalArray(this.properties[x], _.defaultsDeep({ baseIndent: indentLevel - 1 }, this.options))
             type = ary.toString()
+            this.subclasses = this.subclasses.concat(ary.classes)
           }
 
           let str = `${key}: { `
