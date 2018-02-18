@@ -169,9 +169,13 @@ class CrystalClass {
           let type = Util.crystalType(this.properties[x])
 
           if (type === 'class') {
-            const klass = new CrystalClass(this.properties[x], key, _.defaultsDeep({ baseIndent: indentLevel - 1 }, this.options))
-            this.subclasses.push(klass)
-            type = klass.name
+            if (_.isEmpty(this.properties[x])) {
+              type = 'Hash(JSON::Any, JSON::Any)'
+            } else {
+              const klass = new CrystalClass(this.properties[x], key, _.defaultsDeep({ baseIndent: indentLevel - 1 }, this.options))
+              this.subclasses.push(klass)
+              type = klass.name
+            }
           } else if (type === 'array') {
             const ary = new CrystalArray(this.properties[x], _.defaultsDeep({ baseIndent: indentLevel - 1 }, this.options))
             type = ary.toString()
@@ -194,6 +198,9 @@ class CrystalClass {
       arr.push(this._indent('})', --indentLevel))
 
       this._spacing(arr)
+
+      // Make sure all subclasses are unique
+      this.subclasses = _.uniq(this.subclasses)
 
       // Add subclasses into the mix
       arr = arr.concat(this.subclasses.map(sub => sub.toString()))
@@ -277,3 +284,187 @@ class JsonToCrystal {
 }
 
 module.exports = JsonToCrystal
+
+const testJson = {
+	"id": 1296269,
+	"owner": {
+		"login": "octocat",
+		"id": 1,
+		"avatar_url": "https://github.com/images/error/octocat_happy.gif",
+		"gravatar_id": "somehexcode",
+		"url": "https://api.github.com/users/octocat",
+		"html_url": "https://github.com/octocat",
+		"followers_url": "https://api.github.com/users/octocat/followers",
+		"following_url": "https://api.github.com/users/octocat/following{/other_user}",
+		"gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+		"starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+		"subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+		"organizations_url": "https://api.github.com/users/octocat/orgs",
+		"repos_url": "https://api.github.com/users/octocat/repos",
+		"events_url": "https://api.github.com/users/octocat/events{/privacy}",
+		"received_events_url": "https://api.github.com/users/octocat/received_events",
+		"type": "User",
+		"site_admin": false
+	},
+	"name": "Hello-World",
+	"full_name": "octocat/Hello-World",
+	"description": "This your first repo!",
+	"private": false,
+	"fork": false,
+	"url": "https://api.github.com/repos/octocat/Hello-World",
+	"html_url": "https://github.com/octocat/Hello-World",
+	"clone_url": "https://github.com/octocat/Hello-World.git",
+	"git_url": "git://github.com/octocat/Hello-World.git",
+	"ssh_url": "git@github.com:octocat/Hello-World.git",
+	"svn_url": "https://svn.github.com/octocat/Hello-World",
+	"mirror_url": "git://git.example.com/octocat/Hello-World",
+	"homepage": "https://github.com",
+	"language": null,
+	"forks_count": 9,
+	"stargazers_count": 80,
+	"watchers_count": 80,
+	"size": 108,
+	"default_branch": "master",
+	"open_issues_count": 0,
+	"has_issues": true,
+	"has_wiki": true,
+	"has_downloads": true,
+	"pushed_at": "2011-01-26T19:06:43Z",
+	"created_at": "2011-01-26T19:01:12Z",
+	"updated_at": "2011-01-26T19:14:43Z",
+	"permissions": {
+		"admin": false,
+		"push": false,
+		"pull": true
+	},
+	"subscribers_count": 42,
+	"organization": {
+	"login": "octocat",
+	"id": 1,
+	"avatar_url": "https://github.com/images/error/octocat_happy.gif",
+	"gravatar_id": "somehexcode",
+	"url": "https://api.github.com/users/octocat",
+	"html_url": "https://github.com/octocat",
+	"followers_url": "https://api.github.com/users/octocat/followers",
+	"following_url": "https://api.github.com/users/octocat/following{/other_user}",
+	"gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+	"starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+	"subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+	"organizations_url": "https://api.github.com/users/octocat/orgs",
+	"repos_url": "https://api.github.com/users/octocat/repos",
+	"events_url": "https://api.github.com/users/octocat/events{/privacy}",
+	"received_events_url": "https://api.github.com/users/octocat/received_events",
+	"type": "Organization",
+	"site_admin": false
+	},
+	"parent": {
+		"id": 1296269,
+		"owner": {
+			"login": "octocat",
+			"id": 1,
+			"avatar_url": "https://github.com/images/error/octocat_happy.gif",
+			"gravatar_id": "somehexcode",
+			"url": "https://api.github.com/users/octocat",
+			"html_url": "https://github.com/octocat",
+			"followers_url": "https://api.github.com/users/octocat/followers",
+			"following_url": "https://api.github.com/users/octocat/following{/other_user}",
+			"gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+			"starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+			"subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+			"organizations_url": "https://api.github.com/users/octocat/orgs",
+			"repos_url": "https://api.github.com/users/octocat/repos",
+			"events_url": "https://api.github.com/users/octocat/events{/privacy}",
+			"received_events_url": "https://api.github.com/users/octocat/received_events",
+			"type": "User",
+			"site_admin": false
+		},
+		"name": "Hello-World",
+		"full_name": "octocat/Hello-World",
+		"description": "This your first repo!",
+		"private": false,
+		"fork": true,
+		"url": "https://api.github.com/repos/octocat/Hello-World",
+		"html_url": "https://github.com/octocat/Hello-World",
+		"clone_url": "https://github.com/octocat/Hello-World.git",
+		"git_url": "git://github.com/octocat/Hello-World.git",
+		"ssh_url": "git@github.com:octocat/Hello-World.git",
+		"svn_url": "https://svn.github.com/octocat/Hello-World",
+		"mirror_url": "git://git.example.com/octocat/Hello-World",
+		"homepage": "https://github.com",
+		"language": null,
+		"forks_count": 9,
+		"stargazers_count": 80,
+		"watchers_count": 80,
+		"size": 108,
+		"default_branch": "master",
+		"open_issues_count": 0,
+		"has_issues": true,
+		"has_wiki": true,
+		"has_downloads": true,
+		"pushed_at": "2011-01-26T19:06:43Z",
+		"created_at": "2011-01-26T19:01:12Z",
+		"updated_at": "2011-01-26T19:14:43Z",
+		"permissions": {
+			"admin": false,
+			"push": false,
+			"pull": true
+		}
+	},
+	"source": {
+		"id": 1296269,
+		"owner": {
+			"login": "octocat",
+			"id": 1,
+			"avatar_url": "https://github.com/images/error/octocat_happy.gif",
+			"gravatar_id": "somehexcode",
+			"url": "https://api.github.com/users/octocat",
+			"html_url": "https://github.com/octocat",
+			"followers_url": "https://api.github.com/users/octocat/followers",
+			"following_url": "https://api.github.com/users/octocat/following{/other_user}",
+			"gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+			"starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+			"subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+			"organizations_url": "https://api.github.com/users/octocat/orgs",
+			"repos_url": "https://api.github.com/users/octocat/repos",
+			"events_url": "https://api.github.com/users/octocat/events{/privacy}",
+			"received_events_url": "https://api.github.com/users/octocat/received_events",
+			"type": "User",
+			"site_admin": false
+		},
+		"name": "Hello-World",
+		"full_name": "octocat/Hello-World",
+		"description": "This your first repo!",
+		"private": false,
+		"fork": true,
+		"url": "https://api.github.com/repos/octocat/Hello-World",
+		"html_url": "https://github.com/octocat/Hello-World",
+		"clone_url": "https://github.com/octocat/Hello-World.git",
+		"git_url": "git://github.com/octocat/Hello-World.git",
+		"ssh_url": "git@github.com:octocat/Hello-World.git",
+		"svn_url": "https://svn.github.com/octocat/Hello-World",
+		"mirror_url": "git://git.example.com/octocat/Hello-World",
+		"homepage": "https://github.com",
+		"language": null,
+		"forks_count": 9,
+		"stargazers_count": 80,
+		"watchers_count": 80,
+		"size": 108,
+		"default_branch": "master",
+		"open_issues_count": 0,
+		"has_issues": true,
+		"has_wiki": true,
+		"has_downloads": true,
+		"pushed_at": "2011-01-26T19:06:43Z",
+		"created_at": "2011-01-26T19:01:12Z",
+		"updated_at": "2011-01-26T19:14:43Z",
+		"permissions": {
+			"admin": false,
+			"push": false,
+			"pull": true
+		}
+	}
+}
+
+const j2c = new JsonToCrystal()
+const result = j2c.parse(testJson)
+console.log(result)
