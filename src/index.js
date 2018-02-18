@@ -138,7 +138,6 @@ class CrystalClass {
     this.subclasses = []
     this.options = _.defaultsDeep(options, this._defaultOptions)
     this.classString = ''
-    console.log(this.options.baseIndent)
   }
 
   parse () {
