@@ -4,7 +4,7 @@
   "description": "Convert json to Crystal classes",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --notify"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.104"
+    "@types/lodash": "^4.14.104",
+    "jest": "^22.3.0"
   }
 }
