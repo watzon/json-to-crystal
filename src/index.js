@@ -180,13 +180,20 @@ class CrystalClass {
           }
 
           let str = `${key}: { `
+
           if (key !== x)
             str += `key: "${x}", `
+
+          str += `type: ${type}`
+
           if (this.options.allNilable || this.options.nilable(x, key))
-            str += `nilable: true, `
-          str += `type: ${type} }`
+            str += `, nilable: true }`
+          else
+            str += ' }'
+
           if (i < keys.length - 1)
             str += ','
+
           return this._indent(str, indentLevel)
         })
       arr = arr.concat(items)
