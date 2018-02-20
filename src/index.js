@@ -179,17 +179,25 @@ class CrystalClass {
             this.subclasses = this.subclasses.concat(ary.classes)
           }
 
-          let str = `${key}: { `
+          let str = `${key}: `
 
-          if (key !== x)
-            str += `key: "${x}", `
+          if (this.options.explicit && key === x) {
+            str += type
+            if (this.options.allNilable)
+              str += '?'
+          } else {
+            str += `{ `
 
-          str += `type: ${type}`
+            if (key !== x)
+              str += `key: "${x}", `
 
-          if (this.options.allNilable || this.options.nilable(x, key))
-            str += `, nilable: true }`
-          else
-            str += ' }'
+            str += `type: ${type}`
+
+            if (this.options.allNilable || this.options.nilable(x, key))
+              str += `, nilable: true }`
+            else
+              str += ' }'
+          }
 
           if (i < keys.length - 1)
             str += ','
@@ -248,7 +256,8 @@ class CrystalClass {
       transformKeys: CrystalUtil.formatKey,
       allNilable: false,
       nilable: noop,
-      compact: false
+      compact: false,
+      explicit: false
     }
   }
 }
@@ -293,7 +302,8 @@ class JsonToCrystal {
       transformKeys: CrystalUtil.formatKey,
       allNilable: false,
       nilable: noop,
-      compact: false
+      compact: false,
+      explicit: false
     }
   }
 }
