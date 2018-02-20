@@ -182,10 +182,6 @@ class CrystalClass {
           let str = `${key}: `
 
           if (this.options.explicit && key === x) {
-            str += type
-            if (this.options.allNilable)
-              str += '?'
-          } else {
             str += `{ `
 
             if (key !== x)
@@ -197,6 +193,10 @@ class CrystalClass {
               str += `, nilable: true }`
             else
               str += ' }'
+          } else {
+            str += type
+            if (this.options.allNilable)
+              str += '?'
           }
 
           if (i < keys.length - 1)
