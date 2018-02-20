@@ -181,7 +181,7 @@ class CrystalClass {
 
           let str = `${key}: `
 
-          if (this.options.explicit && key === x) {
+          if (this.options.explicit || key === x) {
             str += `{ `
 
             if (key !== x)
